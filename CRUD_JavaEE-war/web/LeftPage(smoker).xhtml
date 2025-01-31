@@ -9,6 +9,7 @@
     <body>
 
         <ui:composition template="./template.xhtml">
+
             <ui:define name="top">
                 <h:form>
                     <h:panelGrid columns="3" columnClasses="rightalign,leftalign,leftalign">
@@ -18,9 +19,9 @@
                                          action="TopPage(registration)" />
                     </h:panelGrid>
                 </h:form>
-                welkome
+                smoker
             </ui:define>
-            
+
             <ui:define name="left">
                 <h3>choose your page</h3>
                 <h:form>
@@ -55,79 +56,69 @@
 
             <ui:define name="content">
                 <h1>CRUD</h1>
-
                 <h:form>
                     <h:panelGrid columns="12" cellpadding="5">
-                        <h:outputText value="Name " />
-                        <p:inputText value="#{bookController.name}"/>
+                        <h:outputText value="groups " />
+                        <p:inputText value="#{SmokerController.groups}"/>
 
-                        <h:outputText value="Author " />
-                        <p:inputText value="#{bookController.author}" />
+                        <h:outputText value="weight " />
+                        <p:inputText value="#{SmokerController.weight}" />
 
-                        <h:outputText value="Category " />
-                        <p:inputText value="#{bookController.category}"/>
+                        <h:outputText value="textbook_plant " />
+                        <p:inputText value="#{SmokerController.textbook_plant}" />
 
-                        <h:outputText value="Year " />
-                        <p:inputText value="#{bookController.year}"/>
+                        <h:outputText value="name_mother_father " />
+                        <p:inputText value="#{SmokerController.name_mother_father}" />
 
-                        <h:outputText value="Price " />
-                        <p:inputText value="#{bookController.price}"/>
-
-                        <p:commandButton value="Add" icon="fa fa-fw fa-plus" action="#{bookController.createBook()}"/>
+                        <p:commandButton value="Add" icon="fa fa-fw fa-plus" action="#{SmokerController.createSmoker()}"/>
                     </h:panelGrid>
                 </h:form>
 
                 <h:form  id="form">
-                    <p:dataTable value="#{bookController.getAllBooks()}" var="book" style="margin: 2em;" rowKey="#{book.id}">
-                        <p:column headerText="Name">
-                            <h:outputText value="#{book.name}"/>
+                    <p:dataTable value="#{SmokerController.getAllSmoker()}" var="Smoker" style="margin: 2em;" rowKey="#{Smoker.ai}">
+                        <p:column headerText="groups">
+                            <h:outputText value="#{Smoker.groups}"/>
                         </p:column>
 
-                        <p:column headerText="Year">
-                            <h:outputText value="#{book.year}"/>
+                        <p:column headerText="weight">
+                            <h:outputText value="#{Smoker.weight}"/>
                         </p:column>
 
-                        <p:column headerText="Author">
-                            <h:outputText value="#{book.author}"/>
+                        <p:column headerText="textbook_plant">
+                            <h:outputText value="#{Smoker.textbookPlant}"/>
                         </p:column>
 
-                        <p:column headerText="Category">
-                            <h:outputText value="#{book.category}"/>
-                        </p:column>
-
-                        <p:column headerText="Price">
-                            <h:outputText value="$#{book.price}"/>
+                        <p:column headerText="name_mother_father">
+                            <h:outputText value="#{Smoker.namemotherfather}"/>
                         </p:column>
 
                         <p:column style="width:100px;text-align: center">
-                            <p:commandButton icon="fa fa-pencil" update=":form:bookEdit" oncomplete="PF('editDialog').show()">
-                                <f:setPropertyActionListener value="#{book}" target="#{bookController.selectedBook}"/>
+                            <p:commandButton icon="fa fa-pencil" update=":form:SmokerEdit" oncomplete="PF('editDialog').show()">
+                                <f:setPropertyActionListener value="#{Smoker}" target="#{SmokerController.selectedSmoker}"/>
                             </p:commandButton>
-                            <p:commandButton action="#{bookController.deleteBook(book)}" icon="fa fa-trash"></p:commandButton>
+                            <p:commandButton action="#{SmokerController.deleteSmoker(Smoker)}" icon="fa fa-trash"></p:commandButton>
                         </p:column>
                     </p:dataTable>
 
-                    <p:dialog header="Edit Book" widgetVar="editDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
-                        <p:outputPanel id="bookEdit" style="text-align:center;">
-                            <p:panelGrid  columns="2" rendered="#{not empty bookController.selectedBook}" columnClasses="label,value">
+                    <p:dialog header="Edit Smoker" widgetVar="editDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
+                        <p:outputPanel id="SmokerEdit" style="text-align:center;">
+                            <p:panelGrid  columns="2" rendered="#{not empty SmokerController.selectedSmoker}" columnClasses="label,value">
 
-                                <h:outputText value="Name: " />
-                                <p:inputText value="#{bookController.selectedBook.name}" />
+                                <h:outputText value="groups: " />
+                                <p:inputText value="#{SmokerController.selectedSmoker.groups}" />
 
-                                <h:outputText value="Category: " />
-                                <p:inputText value="#{bookController.selectedBook.category}" />
+                                <h:outputText value="weight: " />
+                                <p:inputText value="#{SmokerController.selectedSmoker.weight}" />
 
-                                <h:outputText value="Author: " />
-                                <p:inputText value="#{bookController.selectedBook.author}"/>
+                                <h:outputText value="textbook_plant: " />
+                                <p:inputText value="#{SmokerController.selectedSmoker.textbookPlant}" />
 
-                                <h:outputText value="Price: $" />
-                                <p:inputText value="#{bookController.selectedBook.price}" />
+                                <h:outputText value="name_mother_father: " />
+                                <p:inputText value="#{SmokerController.selectedSmoker.namemotherfather}" />
 
-                                <h:outputText value="Year: " />
-                                <p:inputText value="#{bookController.selectedBook.year}" />
                             </p:panelGrid>
 
-                            <p:commandButton value="Update" icon="fa fa-fw fa-pencil" action="#{bookController.updateBook(bookController.selectedBook)}"/>
+                            <p:commandButton value="Update" icon="fa fa-fw fa-pencil" action="#{SmokerController.updateSmoker(SmokerController.selectedSmoker)}"/>
                         </p:outputPanel>
                     </p:dialog>
                 </h:form>

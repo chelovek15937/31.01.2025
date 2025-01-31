@@ -9,6 +9,7 @@
     <body>
 
         <ui:composition template="./template.xhtml">
+
             <ui:define name="top">
                 <h:form>
                     <h:panelGrid columns="3" columnClasses="rightalign,leftalign,leftalign">
@@ -18,9 +19,9 @@
                                          action="TopPage(registration)" />
                     </h:panelGrid>
                 </h:form>
-                welkome
+                teacher
             </ui:define>
-            
+
             <ui:define name="left">
                 <h3>choose your page</h3>
                 <h:form>
@@ -58,76 +59,47 @@
 
                 <h:form>
                     <h:panelGrid columns="12" cellpadding="5">
-                        <h:outputText value="Name " />
-                        <p:inputText value="#{bookController.name}"/>
+                        <h:outputText value="teacher " />
+                        <p:inputText value="#{ConferenceController.teacher}"/>
 
-                        <h:outputText value="Author " />
-                        <p:inputText value="#{bookController.author}" />
+                        <h:outputText value="student " />
+                        <p:inputText value="#{ConferenceController.student}" />
 
-                        <h:outputText value="Category " />
-                        <p:inputText value="#{bookController.category}"/>
-
-                        <h:outputText value="Year " />
-                        <p:inputText value="#{bookController.year}"/>
-
-                        <h:outputText value="Price " />
-                        <p:inputText value="#{bookController.price}"/>
-
-                        <p:commandButton value="Add" icon="fa fa-fw fa-plus" action="#{bookController.createBook()}"/>
+                        <p:commandButton value="Add" icon="fa fa-fw fa-plus" action="#{ConferenceController.createConference()}"/>
                     </h:panelGrid>
                 </h:form>
 
                 <h:form  id="form">
-                    <p:dataTable value="#{bookController.getAllBooks()}" var="book" style="margin: 2em;" rowKey="#{book.id}">
-                        <p:column headerText="Name">
-                            <h:outputText value="#{book.name}"/>
+                    <p:dataTable value="#{ConferenceController.getAllConference()}" var="Conference" style="margin: 2em;" rowKey="#{Conference.ai}">
+                        <p:column headerText="teacher">
+                            <h:outputText value="#{Conference.teacher}"/>
                         </p:column>
 
-                        <p:column headerText="Year">
-                            <h:outputText value="#{book.year}"/>
-                        </p:column>
-
-                        <p:column headerText="Author">
-                            <h:outputText value="#{book.author}"/>
-                        </p:column>
-
-                        <p:column headerText="Category">
-                            <h:outputText value="#{book.category}"/>
-                        </p:column>
-
-                        <p:column headerText="Price">
-                            <h:outputText value="$#{book.price}"/>
+                        <p:column headerText="student">
+                            <h:outputText value="#{Conference.student}"/>
                         </p:column>
 
                         <p:column style="width:100px;text-align: center">
-                            <p:commandButton icon="fa fa-pencil" update=":form:bookEdit" oncomplete="PF('editDialog').show()">
-                                <f:setPropertyActionListener value="#{book}" target="#{bookController.selectedBook}"/>
+                            <p:commandButton icon="fa fa-pencil" update=":form:ConferenceEdit" oncomplete="PF('editDialog').show()">
+                                <f:setPropertyActionListener value="#{Conference}" target="#{ConferenceController.selectedConference}"/>
                             </p:commandButton>
-                            <p:commandButton action="#{bookController.deleteBook(book)}" icon="fa fa-trash"></p:commandButton>
+                            <p:commandButton action="#{ConferenceController.deleteConference(Conference)}" icon="fa fa-trash"></p:commandButton>
                         </p:column>
                     </p:dataTable>
 
-                    <p:dialog header="Edit Book" widgetVar="editDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
-                        <p:outputPanel id="bookEdit" style="text-align:center;">
-                            <p:panelGrid  columns="2" rendered="#{not empty bookController.selectedBook}" columnClasses="label,value">
+                    <p:dialog header="Edit Conference" widgetVar="editDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
+                        <p:outputPanel id="ConferenceEdit" style="text-align:center;">
+                            <p:panelGrid  columns="2" rendered="#{not empty ConferenceController.selectedConference}" columnClasses="label,value">
 
-                                <h:outputText value="Name: " />
-                                <p:inputText value="#{bookController.selectedBook.name}" />
+                                <h:outputText value="Teacher: " />
+                                <p:inputText value="#{ConferenceController.selectedConference.teacher}" />
 
-                                <h:outputText value="Category: " />
-                                <p:inputText value="#{bookController.selectedBook.category}" />
+                                <h:outputText value="Student: " />
+                                <p:inputText value="#{ConferenceController.selectedConference.student}" />
 
-                                <h:outputText value="Author: " />
-                                <p:inputText value="#{bookController.selectedBook.author}"/>
-
-                                <h:outputText value="Price: $" />
-                                <p:inputText value="#{bookController.selectedBook.price}" />
-
-                                <h:outputText value="Year: " />
-                                <p:inputText value="#{bookController.selectedBook.year}" />
                             </p:panelGrid>
 
-                            <p:commandButton value="Update" icon="fa fa-fw fa-pencil" action="#{bookController.updateBook(bookController.selectedBook)}"/>
+                            <p:commandButton value="Update" icon="fa fa-fw fa-pencil" action="#{ConferenceController.updateConference(ConferenceController.selectedConference)}"/>
                         </p:outputPanel>
                     </p:dialog>
                 </h:form>
