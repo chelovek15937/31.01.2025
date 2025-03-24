@@ -1,0 +1,115 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <body>
+
+        <ui:composition template="./template.xhtml">
+
+            <ui:define name="top">
+                <h2>Группы</h2>
+                <h:form>
+                    <h:panelGrid columns="3" columnClasses="rightalign,leftalign,leftalign">
+                        <h:commandButton id="author" value="Войти"
+                                         action="TopPage(authorization)" />
+                        <h:commandButton id="register" value="Зарегистрироватся"
+                                         action="TopPage(registration)" />
+                    </h:panelGrid>
+                </h:form>
+            </ui:define>
+
+            <ui:define name="left">
+                <h3>Выберите вашу страницу</h3>
+                <h:form>
+                    <h:panelGrid columns="3" columnClasses="rightalign,leftalign,leftalign">
+                        <h:message for="salutation"/>
+                        <h:message for="salutation"/>
+                        <h:commandButton id="group" value="Группа"
+                                         action="LeftPage(group)" />
+                        <h:message for="salutation"/>
+                        <h:message for="salutation"/>
+                        <h:commandButton id="student" value="Студент"
+                                         action="LeftPage(student)" />
+                        <h:message for="salutation"/>
+                        <h:message for="salutation"/>
+                        <h:commandButton id="kafedra" value="Кафедра"
+                                         action="LeftPage(kafedra)" />
+                        <h:message for="salutation"/>
+                        <h:message for="salutation"/>
+                        <h:commandButton id="conference" value="Конференция"
+                                         action="LeftPage(conference)" />
+                        <h:message for="salutation"/>
+                        <h:message for="salutation"/>
+                        <h:commandButton id="smoker" value="Куратор"
+                                         action="LeftPage(smoker)" />
+                        <h:message for="salutation"/>
+                        <h:message for="salutation"/>
+                        <h:commandButton id="teacher" value="Учитель"
+                                         action="LeftPage(teacher)" />
+                    </h:panelGrid>
+                </h:form>
+            </ui:define>
+
+            <ui:define name="content">
+                <h1>Кафедра</h1>
+
+                <h:form id="form_new">
+                    <h:panelGrid columns="1" cellpadding="5">
+                        <p:inputText value="#{GroupsController.teacher}" placeholder="Учитель"/>
+                        <p:inputText value="#{GroupsController.smoker}" placeholder="Куратор"/>
+                        <p:inputText value="#{GroupsController.weight}" placeholder="Нагрузка"/>
+                        <p:inputText value="#{GroupsController.textbook_plant}" placeholder="Учебные планы"/>
+
+                        <p:commandButton value="добавить" icon="fa fa-fw fa-plus" action="#{GroupsController.createGroups()}"/>
+                    </h:panelGrid>
+                </h:form>
+
+                <h:form  id="form">
+                    <p:dataTable value="#{GroupsController.getAllGroups()}" var="Groups" style="margin: 2em;" rowKey="#{Groups.ai}">
+                        <p:column headerText="Учитель">
+                            <h:outputText value="#{Groups.teacher}"/>
+                        </p:column>
+
+                        <p:column headerText="Куратор">
+                            <h:outputText value="#{Groups.smoker}"/>
+                        </p:column>
+
+                        <p:column headerText="Нагрузка">
+                            <h:outputText value="#{Groups.weight}"/>
+                        </p:column>
+
+                        <p:column headerText="Учебные планы">
+                            <h:outputText value="#{Groups.textbookPlant}"/>
+                        </p:column>
+
+                        <p:column style="width:100px;text-align: center">
+                            <p:commandButton icon="fa fa-pencil" update=":form:GroupsEdit" oncomplete="PF('editDialog').show()">
+                                <f:setPropertyActionListener value="#{Groups}" target="#{GroupsController.selectedGroups}"/>
+                            </p:commandButton>
+                            <p:commandButton action="#{GroupsController.deleteGroups(Groups)}" icon="fa fa-trash"></p:commandButton>
+                        </p:column>
+                    </p:dataTable>
+
+                    <p:dialog header="Редактировать группу" widgetVar="editDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
+                        <p:outputPanel id="GroupsEdit" style="text-align:center;">
+                            <p:panelGrid  columns="1" rendered="#{not empty GroupsController.selectedGroups}" columnClasses="label,value">
+                                <p:inputText value="#{GroupsController.selectedGroups.teacher}" placeholder="учитель"/>
+                                <p:inputText value="#{GroupsController.selectedGroups.smoker}" placeholder="Куратор"/>
+                                <p:inputText value="#{GroupsController.selectedGroups.weight}" placeholder="Нагрузка"/>
+                                <p:inputText value="#{GroupsController.selectedGroups.textbookPlant}" placeholder="Учебные планы"/>
+                            </p:panelGrid>
+
+                            <p:commandButton value="Обновить" icon="fa fa-fw fa-pencil" action="#{GroupsController.updateGroups(GroupsController.selectedGroups)}"/>
+                        </p:outputPanel>
+                    </p:dialog>
+                </h:form>
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

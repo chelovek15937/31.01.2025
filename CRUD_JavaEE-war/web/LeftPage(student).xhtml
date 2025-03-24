@@ -1,0 +1,115 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <body>
+
+        <ui:composition template="./template.xhtml">
+
+            <ui:define name="top">
+                <h2>Студент</h2>
+                <h:form>
+                    <h:panelGrid columns="3" columnClasses="rightalign,leftalign,leftalign">
+                        <h:commandButton id="author" value="Войти"
+                                         action="TopPage(authorization)" />
+                        <h:commandButton id="register" value="Зарегистрироватся"
+                                         action="TopPage(registration)" />
+                    </h:panelGrid>
+                </h:form>
+            </ui:define>
+
+            <ui:define name="left">
+                <h3>Выберите вашу страницу</h3>
+                <h:form>
+                    <h:panelGrid columns="3" columnClasses="rightalign,leftalign,leftalign">
+                        <h:message for="salutation"/>
+                        <h:message for="salutation"/>
+                        <h:commandButton id="group" value="Группа"
+                                         action="LeftPage(group)" />
+                        <h:message for="salutation"/>
+                        <h:message for="salutation"/>
+                        <h:commandButton id="student" value="Студент"
+                                         action="LeftPage(student)" />
+                        <h:message for="salutation"/>
+                        <h:message for="salutation"/>
+                        <h:commandButton id="kafedra" value="Кафедра"
+                                         action="LeftPage(kafedra)" />
+                        <h:message for="salutation"/>
+                        <h:message for="salutation"/>
+                        <h:commandButton id="conference" value="Конференция"
+                                         action="LeftPage(conference)" />
+                        <h:message for="salutation"/>
+                        <h:message for="salutation"/>
+                        <h:commandButton id="smoker" value="Куратор"
+                                         action="LeftPage(smoker)" />
+                        <h:message for="salutation"/>
+                        <h:message for="salutation"/>
+                        <h:commandButton id="teacher" value="Учитель"
+                                         action="LeftPage(teacher)" />
+                    </h:panelGrid>
+                </h:form>
+            </ui:define>
+
+            <ui:define name="content">
+                <h1>Кафедра</h1>
+
+                <h:form id="form_new">
+                    <h:panelGrid columns="1" cellpadding="5">
+                        <p:inputText value="#{studentController.smoker}" placeholder="Куратор"/>
+                        <p:inputText value="#{studentController.teacher}" placeholder="Учитель"/>
+                        <p:inputText value="#{studentController.conference}" placeholder="Конференция"/>
+                        <p:inputText value="#{studentController.mother_father}" placeholder="ФИО"/>
+
+                        <p:commandButton value="Добавить" icon="fa fa-fw fa-plus" action="#{studentController.createStudent()}"/>
+                    </h:panelGrid>
+                </h:form>
+
+                <h:form  id="form">
+                    <p:dataTable value="#{studentController.getAllStudent()}" var="Student" style="margin: 2em;" rowKey="#{Student.ai}">
+                        <p:column headerText="Куратор">
+                            <h:outputText value="#{Student.smoker}"/>
+                        </p:column>
+
+                        <p:column headerText="Учитель">
+                            <h:outputText value="#{Student.teacher}"/>
+                        </p:column>
+
+                        <p:column headerText="Конференция">
+                            <h:outputText value="#{Student.conference}"/>
+                        </p:column>
+
+                        <p:column headerText="ФИО">
+                            <h:outputText value="#{Student.motherFather}"/>
+                        </p:column>
+
+                        <p:column style="width:100px;text-align: center">
+                            <p:commandButton icon="fa fa-pencil" update=":form:StudentEdit" oncomplete="PF('editDialog').show()">
+                                <f:setPropertyActionListener value="#{Student}" target="#{studentController.selectedStudent}"/>
+                            </p:commandButton>
+                            <p:commandButton action="#{studentController.deleteStudent(Student)}" icon="fa fa-trash"></p:commandButton>
+                        </p:column>
+                    </p:dataTable>
+
+                    <p:dialog header="Редактировать студента" widgetVar="editDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
+                        <p:outputPanel id="StudentEdit" style="text-align:center;">
+                            <p:panelGrid  columns="1" rendered="#{not empty studentController.selectedStudent}" columnClasses="label,value">
+                                <p:inputText value="#{studentController.selectedStudent.smoker}" placeholder="Куратор"/>
+                                <p:inputText value="#{studentController.selectedStudent.teacher}" placeholder="Учитель"/>
+                                <p:inputText value="#{studentController.selectedStudent.conference}" placeholder="Конференция"/>
+                                <p:inputText value="#{studentController.selectedStudent.motherFather}" placeholder="ФИО"/>
+                            </p:panelGrid>
+
+                            <p:commandButton value="Обновить" icon="fa fa-fw fa-pencil" action="#{studentController.updateStudent(studentController.selectedStudent)}"/>
+                        </p:outputPanel>
+                    </p:dialog>
+                </h:form>
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

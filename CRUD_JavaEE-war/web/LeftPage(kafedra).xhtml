@@ -1,0 +1,109 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <body>
+
+        <ui:composition template="./template.xhtml">
+
+            <ui:define name="top">
+                <h2>Кафедра</h2>
+                <h:form>
+                    <h:panelGrid columns="3" columnClasses="rightalign,leftalign,leftalign">
+                        <h:commandButton id="author" value="Войти"
+                                         action="TopPage(authorization)" />
+                        <h:commandButton id="register" value="Зарегистрироватся"
+                                         action="TopPage(registration)" />
+                    </h:panelGrid>
+                </h:form>
+            </ui:define>
+
+            <ui:define name="left">
+                <h3>Выберите вашу страницу</h3>
+                <h:form>
+                    <h:panelGrid columns="3" columnClasses="rightalign,leftalign,leftalign">
+                        <h:message for="salutation"/>
+                        <h:message for="salutation"/>
+                        <h:commandButton id="group" value="Группа"
+                                         action="LeftPage(group)" />
+                        <h:message for="salutation"/>
+                        <h:message for="salutation"/>
+                        <h:commandButton id="student" value="Студент"
+                                         action="LeftPage(student)" />
+                        <h:message for="salutation"/>
+                        <h:message for="salutation"/>
+                        <h:commandButton id="kafedra" value="Кафедра"
+                                         action="LeftPage(kafedra)" />
+                        <h:message for="salutation"/>
+                        <h:message for="salutation"/>
+                        <h:commandButton id="conference" value="Конференция"
+                                         action="LeftPage(conference)" />
+                        <h:message for="salutation"/>
+                        <h:message for="salutation"/>
+                        <h:commandButton id="smoker" value="Куратор"
+                                         action="LeftPage(smoker)" />
+                        <h:message for="salutation"/>
+                        <h:message for="salutation"/>
+                        <h:commandButton id="teacher" value="Учитель"
+                                         action="LeftPage(teacher)" />
+                    </h:panelGrid>
+                </h:form>
+            </ui:define>
+
+            <ui:define name="content">
+                <h1>Кафедра</h1>
+
+                <h:form id="form_new">
+                    <h:panelGrid columns="1" cellpadding="5">
+                        <p:inputText value="#{KafedraController.name}" placeholder="Имя"/>
+                        <p:inputText value="#{KafedraController.groups}" placeholder="Группа"/>
+                        <p:inputText value="#{KafedraController.textbook_plant}" placeholder="Учебные планы"/>
+
+                        <p:commandButton value="Добавить" icon="fa fa-fw fa-plus" action="#{KafedraController.createKafedra()}"/>
+                    </h:panelGrid>
+                </h:form>
+
+                <h:form  id="form">
+                    <p:dataTable value="#{KafedraController.getAllKafedra()}" var="Kafedra" style="margin: 2em;" rowKey="#{Kafedra.ai}">
+                        <p:column headerText="Имя">
+                            <h:outputText value="#{Kafedra.name}"/>
+                        </p:column>
+
+                        <p:column headerText="Группа">
+                            <h:outputText value="#{Kafedra.groups}"/>
+                        </p:column>
+
+                        <p:column headerText="Учебные планы">
+                            <h:outputText value="#{Kafedra.textbookPlants}"/>
+                        </p:column>
+
+                        <p:column style="width:100px;text-align: center">
+                            <p:commandButton icon="fa fa-pencil" update=":form:KafedraEdit" oncomplete="PF('editDialog').show()">
+                                <f:setPropertyActionListener value="#{Kafedra}" target="#{KafedraController.selectedKafedra}"/>
+                            </p:commandButton>
+                            <p:commandButton action="#{KafedraController.deleteKafedra(Kafedra)}" icon="fa fa-trash"></p:commandButton>
+                        </p:column>
+                    </p:dataTable>
+
+                    <p:dialog header="Редактировать кафедру" widgetVar="editDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
+                        <p:outputPanel id="KafedraEdit" style="text-align:center;">
+                            <p:panelGrid  columns="1" rendered="#{not empty KafedraController.selectedKafedra}" columnClasses="label,value">
+                                <p:inputText value="#{KafedraController.selectedKafedra.name}" placeholder="Имя"/>
+                                <p:inputText value="#{KafedraController.selectedKafedra.groups}" placeholder="Группа"/>
+                                <p:inputText value="#{KafedraController.selectedKafedra.textbookPlants}" placeholder="Учебные планы"/>
+                            </p:panelGrid>
+
+                            <p:commandButton value="Обновить" icon="fa fa-fw fa-pencil" action="#{KafedraController.updateKafedra(KafedraController.selectedKafedra)}"/>
+                        </p:outputPanel>
+                    </p:dialog>
+                </h:form>
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

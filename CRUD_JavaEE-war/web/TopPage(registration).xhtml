@@ -1,0 +1,119 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <body>
+
+        <ui:composition template="./template.xhtml">
+
+            <ui:define name="left">
+                <h3>Выберите вашу страницу</h3>
+                <h:form>
+                    <h:panelGrid columns="3" columnClasses="rightalign,leftalign,leftalign">
+                        <h:message for="salutation"/>
+                        <h:message for="salutation"/>
+                        <h:commandButton id="group" value="Группа"
+                                         action="LeftPage(group)" />
+                        <h:message for="salutation"/>
+                        <h:message for="salutation"/>
+                        <h:commandButton id="student" value="Студент"
+                                         action="LeftPage(student)" />
+                        <h:message for="salutation"/>
+                        <h:message for="salutation"/>
+                        <h:commandButton id="kafedra" value="Кафедра"
+                                         action="LeftPage(kafedra)" />
+                        <h:message for="salutation"/>
+                        <h:message for="salutation"/>
+                        <h:commandButton id="conference" value="Конференция"
+                                         action="LeftPage(conference)" />
+                        <h:message for="salutation"/>
+                        <h:message for="salutation"/>
+                        <h:commandButton id="smoker" value="Куратор"
+                                         action="LeftPage(smoker)" />
+                        <h:message for="salutation"/>
+                        <h:message for="salutation"/>
+                        <h:commandButton id="teacher" value="Учитель"
+                                         action="LeftPage(teacher)" />
+                    </h:panelGrid>
+                </h:form>
+            </ui:define>
+            <ui:define name="top">
+                <h:form>
+                    <h:panelGrid columns="3" columnClasses="rightalign,leftalign,leftalign">
+                        <h:commandButton id="author" value="Войти"
+                                         action="TopPage(authorization)" />
+                        <h:commandButton id="register" value="Зарегистрироватся"
+                                         action="TopPage(registration)" />
+                    </h:panelGrid>
+                </h:form>
+                <h2>Это</h2>
+                <h3>Регистрация</h3>
+            </ui:define>
+            <ui:define name="content">
+                <h1>Кафедра</h1>
+                <h:form id="form_new">
+                    <h:panelGrid columns="1" cellpadding="5">
+                        <p:inputText value="#{UserController.username}" placeholder="Никнейм"/>
+                        <p:inputText value="#{UserController.pass}" placeholder="Пароль"/>
+                        <p:inputText value="#{UserController.name_mother_father}"  placeholder="ФИО"/>
+                        <p:inputText value="#{UserController.adres}" placeholder="Адрес"/>
+                        <p:inputText value="#{UserController.login}" placeholder="Логин"/>
+
+                        <p:commandButton value="Добавить" icon="fa fa-fw fa-plus" action="#{UserController.createUser()}"/>
+                    </h:panelGrid>
+                </h:form>
+
+                <h:form  id="form">
+                    <p:dataTable value="#{UserController.getAllUser()}" var="User" style="margin: 2em;" rowKey="#{User.id}" id="tabler">
+                        <p:column headerText="Никнейм">
+                            <h:outputText value="#{User.user}"/>
+                        </p:column>
+
+                        <p:column headerText="Пароль">
+                            <h:outputText value="#{User.pass}"/>
+                        </p:column>
+
+                        <p:column headerText="ФИО">
+                            <h:outputText value="#{User.namemotherfather}"/>
+                        </p:column>
+
+                        <p:column headerText="Адрес">
+                            <h:outputText value="#{User.adres}"/>
+                        </p:column>
+
+                        <p:column headerText="Логин">
+                            <h:outputText value="#{User.login}"/>
+                        </p:column>
+
+                        <p:column style="width:100px;text-align: center">
+                            <p:commandButton icon="fa fa-pencil" update=":form:UserEdit" oncomplete="PF('editDialog').show()">
+                                <f:setPropertyActionListener value="#{User}" target="#{UserController.selectedUser}"/>
+                            </p:commandButton>
+                            <p:commandButton action="#{UserController.deleteUser(User)}" icon="fa fa-trash"></p:commandButton>
+                        </p:column>
+                    </p:dataTable>
+
+                    <p:dialog header="Редактировать пользователя" widgetVar="editDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
+                        <p:outputPanel id="UserEdit" style="text-align:center;">
+                            <p:panelGrid  columns="1" rendered="#{not empty UserController.selectedUser}" columnClasses="label,value">
+                                <p:inputText value="#{UserController.selectedUser.user}" placeholder="Никнейм"/>
+                                <p:inputText value="#{UserController.selectedUser.pass}" placeholder="Пароль"/>
+                                <p:inputText value="#{UserController.selectedUser.namemotherfather}" placeholder="ФИО"/>
+                                <p:inputText value="#{UserController.selectedUser.adres}" placeholder="Адрес"/>
+                                <p:inputText value="#{UserController.selectedUser.login}" placeholder="Логин"/>
+                            </p:panelGrid>
+
+                            <p:commandButton value="Обновить" icon="fa fa-fw fa-pencil" action="#{UserController.updateUser(UserController.selectedUser)}"/>
+                        </p:outputPanel>
+                    </p:dialog>
+                </h:form>
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

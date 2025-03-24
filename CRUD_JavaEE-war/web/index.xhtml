@@ -1,0 +1,120 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <body>
+
+        <ui:composition template="./template.xhtml">
+            <ui:define name="top">
+                <h2>Добро пожаловать!</h2>
+                <h:form>
+                    <h:panelGrid columns="3" columnClasses="rightalign,leftalign,leftalign">
+                        <h:commandButton id="author" value="Войти"
+                                         action="TopPage(authorization)" />
+                        <h:commandButton id="register" value="Зарегистрироватся"
+                                         action="TopPage(registration)" />
+                    </h:panelGrid>
+                </h:form>
+            </ui:define>
+
+            <ui:define name="left">
+                <h3>Выберите вашу страницу</h3>
+                <h:form>
+                    <h:panelGrid columns="3" columnClasses="rightalign,leftalign,leftalign">
+                        <h:message for="salutation"/>
+                        <h:message for="salutation"/>
+                        <h:commandButton id="group" value="Группа"
+                                         action="LeftPage(group)" />
+                        <h:message for="salutation"/>
+                        <h:message for="salutation"/>
+                        <h:commandButton id="student" value="Студент"
+                                         action="LeftPage(student)" />
+                        <h:message for="salutation"/>
+                        <h:message for="salutation"/>
+                        <h:commandButton id="kafedra" value="Кафедра"
+                                         action="LeftPage(kafedra)" />
+                        <h:message for="salutation"/>
+                        <h:message for="salutation"/>
+                        <h:commandButton id="conference" value="Конференция"
+                                         action="LeftPage(conference)" />
+                        <h:message for="salutation"/>
+                        <h:message for="salutation"/>
+                        <h:commandButton id="smoker" value="Куратор"
+                                         action="LeftPage(smoker)" />
+                        <h:message for="salutation"/>
+                        <h:message for="salutation"/>
+                        <h:commandButton id="teacher" value="Учитель"
+                                         action="LeftPage(teacher)" />
+                    </h:panelGrid>
+                </h:form>
+            </ui:define>
+
+            <ui:define name="content">
+                <h1>Кафедра</h1>
+
+                <h:form id="form_new">
+                    <h:panelGrid columns="1" cellpadding="5">
+                        <p:inputText value="#{bookController.name}" placeholder="Имя"/>
+                        <p:inputText value="#{bookController.author}" placeholder="Автор"/>
+                        <p:inputText value="#{bookController.category}" placeholder="Категория"/>
+                        <p:inputText value="#{bookController.year}" placeholder="Год"/>
+                        <p:inputText value="#{bookController.price}" placeholder="Цена"/>
+
+                        <p:commandButton id="form_new_button" value="Добавить" icon="fa fa-fw fa-plus" action="#{bookController.createBook()}"/>
+                    </h:panelGrid>
+                </h:form>
+
+                <h:form id="form">
+                    <p:dataTable value="#{bookController.getAllBooks()}" var="book" style="margin: 2em;" rowKey="#{book.id}" id="tabler">
+                        <p:column headerText="Имя">
+                            <h:outputText value="#{book.name}"/>
+                        </p:column>
+
+                        <p:column headerText="Автор">
+                            <h:outputText value="#{book.author}"/>
+                        </p:column>
+
+                        <p:column headerText="Категория">
+                            <h:outputText value="#{book.category}"/>
+                        </p:column>
+
+                        <p:column headerText="Год">
+                            <h:outputText value="#{book.year}"/>
+                        </p:column>
+
+                        <p:column headerText="Цена">
+                            <h:outputText value="Р#{book.price}"/>
+                        </p:column>
+
+                        <p:column style="width:100px;text-align: center">
+                            <p:commandButton icon="fa fa-pencil" update=":form:bookEdit" oncomplete="PF('editDialog').show()">
+                                <f:setPropertyActionListener value="#{book}" target="#{bookController.selectedBook}"/>
+                            </p:commandButton>
+                            <p:commandButton action="#{bookController.deleteBook(book)}" icon="fa fa-trash"></p:commandButton>
+                        </p:column>
+                    </p:dataTable>
+
+                    <p:dialog header="Редактировать книгу" widgetVar="editDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
+                        <p:outputPanel id="bookEdit" style="text-align:center;">
+                            <p:panelGrid  columns="1" rendered="#{not empty bookController.selectedBook}" columnClasses="label,value">
+                                <p:inputText value="#{bookController.selectedBook.name}" placeholder="Имя"/>
+                                <p:inputText value="#{bookController.selectedBook.author}" placeholder="Автор"/>
+                                <p:inputText value="#{bookController.selectedBook.category}" placeholder="Категория"/>
+                                <p:inputText value="#{bookController.selectedBook.year}" placeholder="Год"/>
+                                <p:inputText value="#{bookController.selectedBook.price}" placeholder="Цена Р"/>
+                            </p:panelGrid>
+
+                            <p:commandButton value="Редактировать" icon="fa fa-fw fa-pencil" action="#{bookController.updateBook(bookController.selectedBook)}"/>
+                        </p:outputPanel>
+                    </p:dialog>
+                </h:form>
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

@@ -1,0 +1,114 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <body>
+
+        <ui:composition template="./template.xhtml">
+
+            <ui:define name="top">
+                <h2>Куратор</h2>
+                <h:form>
+                    <h:panelGrid columns="3" columnClasses="rightalign,leftalign,leftalign">
+                        <h:commandButton id="author" value="Войти"
+                                         action="TopPage(authorization)" />
+                        <h:commandButton id="register" value="Зарегистрироватся"
+                                         action="TopPage(registration)" />
+                    </h:panelGrid>
+                </h:form>
+            </ui:define>
+
+            <ui:define name="left">
+                <h3>Выберите вашу страницу</h3>
+                <h:form>
+                    <h:panelGrid columns="3" columnClasses="rightalign,leftalign,leftalign">
+                        <h:message for="salutation"/>
+                        <h:message for="salutation"/>
+                        <h:commandButton id="group" value="Группа"
+                                         action="LeftPage(group)" />
+                        <h:message for="salutation"/>
+                        <h:message for="salutation"/>
+                        <h:commandButton id="student" value="Студент"
+                                         action="LeftPage(student)" />
+                        <h:message for="salutation"/>
+                        <h:message for="salutation"/>
+                        <h:commandButton id="kafedra" value="Кафедра"
+                                         action="LeftPage(kafedra)" />
+                        <h:message for="salutation"/>
+                        <h:message for="salutation"/>
+                        <h:commandButton id="conference" value="Конференция"
+                                         action="LeftPage(conference)" />
+                        <h:message for="salutation"/>
+                        <h:message for="salutation"/>
+                        <h:commandButton id="smoker" value="Куратор"
+                                         action="LeftPage(smoker)" />
+                        <h:message for="salutation"/>
+                        <h:message for="salutation"/>
+                        <h:commandButton id="teacher" value="Учитель"
+                                         action="LeftPage(teacher)" />
+                    </h:panelGrid>
+                </h:form>
+            </ui:define>
+
+            <ui:define name="content">
+                <h1>Кафедра</h1>
+                <h:form id="form_new">
+                    <h:panelGrid columns="1" cellpadding="5">
+                        <p:inputText value="#{SmokerController.groups}" placeholder="Группа"/>
+                        <p:inputText value="#{SmokerController.weight}" placeholder="Нагрузка"/>
+                        <p:inputText value="#{SmokerController.textbook_plant}" placeholder="Учебные планы"/>
+                        <p:inputText value="#{SmokerController.name_mother_father}" placeholder="ФИО"/>
+
+                        <p:commandButton value="Добавить" icon="fa fa-fw fa-plus" action="#{SmokerController.createSmoker()}"/>
+                    </h:panelGrid>
+                </h:form>
+
+                <h:form  id="form">
+                    <p:dataTable value="#{SmokerController.getAllSmoker()}" var="Smoker" style="margin: 2em;" rowKey="#{Smoker.ai}">
+                        <p:column headerText="Группа">
+                            <h:outputText value="#{Smoker.groups}"/>
+                        </p:column>
+
+                        <p:column headerText="Нагрузка">
+                            <h:outputText value="#{Smoker.weight}"/>
+                        </p:column>
+
+                        <p:column headerText="Учебные планы">
+                            <h:outputText value="#{Smoker.textbookPlant}"/>
+                        </p:column>
+
+                        <p:column headerText="ФИО">
+                            <h:outputText value="#{Smoker.namemotherfather}"/>
+                        </p:column>
+
+                        <p:column style="width:100px;text-align: center">
+                            <p:commandButton icon="fa fa-pencil" update=":form:SmokerEdit" oncomplete="PF('editDialog').show()">
+                                <f:setPropertyActionListener value="#{Smoker}" target="#{SmokerController.selectedSmoker}"/>
+                            </p:commandButton>
+                            <p:commandButton action="#{SmokerController.deleteSmoker(Smoker)}" icon="fa fa-trash"></p:commandButton>
+                        </p:column>
+                    </p:dataTable>
+
+                    <p:dialog header="Редактировать куратора" widgetVar="editDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
+                        <p:outputPanel id="SmokerEdit" style="text-align:center;">
+                            <p:panelGrid  columns="1" rendered="#{not empty SmokerController.selectedSmoker}" columnClasses="label,value">
+                                <p:inputText value="#{SmokerController.selectedSmoker.groups}" placeholder="Группа"/>
+                                <p:inputText value="#{SmokerController.selectedSmoker.weight}" placeholder="Нагрузка"/>
+                                <p:inputText value="#{SmokerController.selectedSmoker.textbookPlant}" placeholder="Учебные планы"/>
+                                <p:inputText value="#{SmokerController.selectedSmoker.namemotherfather}" placeholder="ФИО"/>
+                            </p:panelGrid>
+
+                            <p:commandButton value="Обновить" icon="fa fa-fw fa-pencil" action="#{SmokerController.updateSmoker(SmokerController.selectedSmoker)}"/>
+                        </p:outputPanel>
+                    </p:dialog>
+                </h:form>
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

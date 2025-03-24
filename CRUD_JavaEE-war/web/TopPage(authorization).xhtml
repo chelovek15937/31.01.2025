@@ -1,0 +1,91 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <body>
+
+        <ui:composition template="./template.xhtml">
+
+            <ui:define name="left">
+                <h3>Выберите вашу страницу</h3>
+                <h:form>
+                    <h:panelGrid columns="3" columnClasses="rightalign,leftalign,leftalign">
+                        <h:message for="salutation"/>
+                        <h:message for="salutation"/>
+                        <h:commandButton id="group" value="Группа"
+                                         action="LeftPage(group)" />
+                        <h:message for="salutation"/>
+                        <h:message for="salutation"/>
+                        <h:commandButton id="student" value="Студент"
+                                         action="LeftPage(student)" />
+                        <h:message for="salutation"/>
+                        <h:message for="salutation"/>
+                        <h:commandButton id="kafedra" value="Кафедра"
+                                         action="LeftPage(kafedra)" />
+                        <h:message for="salutation"/>
+                        <h:message for="salutation"/>
+                        <h:commandButton id="conference" value="Конференция"
+                                         action="LeftPage(conference)" />
+                        <h:message for="salutation"/>
+                        <h:message for="salutation"/>
+                        <h:commandButton id="smoker" value="Куратор"
+                                         action="LeftPage(smoker)" />
+                        <h:message for="salutation"/>
+                        <h:message for="salutation"/>
+                        <h:commandButton id="teacher" value="Учитель"
+                                         action="LeftPage(teacher)" />
+                    </h:panelGrid>
+                </h:form>
+            </ui:define>
+            <ui:define name="top">
+                <h:form>
+                    <h:panelGrid columns="3" columnClasses="rightalign,leftalign,leftalign">
+                        <h:commandButton id="author" value="Войти"
+                                         action="TopPage(authorization)" />
+                        <h:commandButton id="register" value="Зарегистрироватся"
+                                         action="TopPage(registration)" />
+                    </h:panelGrid>
+                </h:form>
+                <h2>Это</h2>
+                <h3>Авторизация!</h3>
+            </ui:define>
+            <ui:define name="content">
+                <h1>Кафедра</h1>
+                <h:form id="form_new">
+                    <h:panelGrid columns="1" cellpadding="5">
+                        <h:selectOneMenu id="salutation" label="Salutation"
+                                         value="#{registrationBean.salutation}">
+                            <f:selectItem itemLabel="Кто вы?" itemValue=""/>
+                            <f:selectItem itemLabel="Мистер." itemValue="MR"/>
+                            <f:selectItem itemLabel="Миссис." itemValue="MRS"/>
+                            <f:selectItem itemLabel="Скучать" itemValue="MISS"/>
+                            <f:selectItem itemLabel="РС" itemValue="MS"/>
+                            <f:selectItem itemLabel="Доктор." itemValue="DR"/>
+                        </h:selectOneMenu>
+                        <p:inputText id="firstName" label="First Name"
+                                     required="true"
+                                     value="#{registrationBean.firstName}" placeholder="Первое имя"/>
+                        <p:inputText id="lastName" label="Last Name"
+                                     required="true"
+                                     value="#{registrationBean.lastName}" placeholder="Последнее имя"/>
+                        <p:inputText id="age" label="Age"
+                                     value="#{registrationBean.age}" placeholder="Возраст"/>
+                        <p:inputText id="email" label="Email Address"
+                                     required="true"
+                                     value="#{registrationBean.email}" placeholder="Эмайл">
+                        </p:inputText>
+                        <h:message for="email" />
+                        <h:panelGroup/>
+                        <h:commandButton id="register" value="Войти"
+                                         action="index" />
+                    </h:panelGrid>
+                </h:form>
+            </ui:define>
+        </ui:composition>
+
+    </body>
+</html>
